@@ -41,7 +41,7 @@ export default function JourneyPage() {
           href="/"
           className="mb-8 inline-block text-sm text-gray-400 hover:text-[#c5f467]"
         >
-          ← Back to Dashboard
+          Back to Dashboard
         </Link>
 
         {/* Header */}
@@ -69,7 +69,7 @@ export default function JourneyPage() {
             >
               <div className="mb-8 flex items-center justify-between">
                 <span className="text-sm font-medium text-[#c5f467]">
-                  {section.number} / {section.period}
+                {section.period}
                 </span>
 
                 <span className="h-2 w-2 rounded-full bg-[#c5f467]" />
@@ -105,7 +105,7 @@ export default function JourneyPage() {
                   href={section.href}
                   className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-[#c5f467] px-5 py-3 font-semibold text-[#10110f] transition hover:bg-[#b2e653]"
                 >
-                  Explore Past →
+                  {section.period.toUpperCase()}
                 </Link>
               ) : (
                 <button

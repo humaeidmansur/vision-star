@@ -135,14 +135,14 @@ export default function PresentPage() {
           href="/journey"
           className="mb-8 inline-block text-sm text-gray-400 hover:text-[#c5f467]"
         >
-          ← Back to My Journey
+          Back to My Journey
         </Link>
 
         {/* Header */}
         <header className="mb-10 flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="mb-3 text-sm uppercase tracking-[0.3em] text-[#c5f467]">
-              02 / Present
+              Present
             </p>
 
             <h1 className="text-3xl font-bold md:text-4xl">
