@@ -138,7 +138,7 @@ export default function SkillsPage() {
           href="/"
           className="mb-8 inline-block text-sm text-gray-400 hover:text-[#c5f467]"
         >
-          ← Back to Dashboard
+          Back to Dashboard
         </Link>
 
         {/* Header */}

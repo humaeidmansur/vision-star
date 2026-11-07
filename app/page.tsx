@@ -9,13 +9,16 @@ export default function Dashboard() {
   if (!isLoaded) {
     return (
       <main className="flex min-h-screen items-center justify-center text-[#c5f467]">
-        Loading Vision Star...
+        <span className="loading loading-bars loading-xs"></span>
+        <span className="loading loading-bars loading-sm"></span>
+        <span className="loading loading-bars loading-md"></span>
+        <span className="loading loading-bars loading-lg"></span>
+        <span className="loading loading-bars loading-xl"></span>
       </main>
     );
   }
 
-  const { profile, achievements, goals, skills, projects, tasks, values } =
-    personalData;
+  const { achievements, goals, skills, projects, tasks, values } = personalData;
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -127,14 +130,6 @@ export default function Dashboard() {
               Your personal space for growth and progress.
             </p>
           </div>
-
-          <Link
-            href="/settings"
-            className="vs-button-secondary flex items-center justify-center gap-2"
-          >
-            <span>⚙</span>
-            Settings
-          </Link>
         </header>
 
         {/* Welcome Banner */}
@@ -153,8 +148,8 @@ export default function Dashboard() {
             </h2>
 
             <p className="mt-5 max-w-xl text-sm leading-7 text-gray-400 md:text-base">
-              Your personal space to record achievements, develop skills,
-              manage projects and turn your ambitions into reality.
+              Your personal space to record achievements, develop skills, manage
+              projects and turn your ambitions into reality.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">

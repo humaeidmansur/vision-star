@@ -1,7 +1,15 @@
+import Link from "next/link";
+
 export default function SettingsPage() {
   return (
     <main className="min-h-screen bg-[#10110f] p-8 text-white">
-
+   
+        <Link
+          href="/"
+          className="mb-8 inline-block text-sm text-gray-400 hover:text-[#c5f467]"
+        >
+          Back to Dashboard
+        </Link>
       <div className="mx-auto max-w-4xl">
 
         <p className="mb-3 text-sm uppercase tracking-widest text-[#c5f467]">
