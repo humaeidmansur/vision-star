@@ -1,8 +1,6 @@
 "use client";
 
-// ========================================
-// VISION STAR - PERSONAL DATA CONTEXT
-// ========================================
+
 
 import {
   createContext,
@@ -17,9 +15,10 @@ import type { PersonalData } from "@/types";
 import {
   getPersonalData,
   savePersonalData,
+  clearPersonalData,
 } from "@/lib/storage";
 
-const initialPersonalData = {} as PersonalData;
+import { initialPersonalData } from "@/data/initial-data";
 
 // Context interface
 interface PersonalDataContextType {
@@ -62,16 +61,16 @@ export function PersonalDataProvider({
     return () => window.clearTimeout(timeoutId);
   }, []);
 
-  // Update data and save it
+  // Update personal data and save it
   const updatePersonalData = useCallback((data: PersonalData) => {
     setPersonalData(data);
     savePersonalData(data);
   }, []);
 
-  // Reset data to initial values
+  // Reset personal data to empty initial values
   const resetPersonalData = useCallback(() => {
     setPersonalData(initialPersonalData);
-    savePersonalData(initialPersonalData);
+    clearPersonalData();
   }, []);
 
   return (
