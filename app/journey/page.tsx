@@ -8,6 +8,8 @@ const journeySections = [
     description:
       "Remember your experiences, achievements, challenges and important life moments.",
     items: ["Achievements", "Life Experiences", "Important Milestones"],
+    href: "/journey/past",
+    available: true,
   },
   {
     number: "02",
@@ -16,6 +18,8 @@ const journeySections = [
     description:
       "Understand where you are today and keep track of your personal development.",
     items: ["Current Activities", "Skills Development", "Personal Progress"],
+    href: "/journey/present",
+    available: true,
   },
   {
     number: "03",
@@ -24,15 +28,15 @@ const journeySections = [
     description:
       "Define your ambitions and create a clear direction for your future.",
     items: ["Long-term Vision", "Personal Ambitions", "Future Milestones"],
+    href: "/journey/future",
+    available: true,
   },
 ];
 
 export default function JourneyPage() {
   return (
     <main className="min-h-screen bg-[#10110f] px-6 py-10 text-white md:px-10">
-
       <div className="mx-auto max-w-6xl">
-
         <Link
           href="/"
           className="mb-8 inline-block text-sm text-gray-400 hover:text-[#c5f467]"
@@ -51,17 +55,15 @@ export default function JourneyPage() {
           </h1>
 
           <p className="max-w-2xl leading-7 text-gray-400">
-            Your past explains where you came from. Your present
-            shows where you are. Your future represents where
-            you want to go.
+            Your past explains where you came from. Your present shows where you
+            are. Your future represents where you want to go.
           </p>
         </header>
 
-        {/* Journey Timeline */}
+        {/* Journey Cards */}
         <section className="grid gap-6 lg:grid-cols-3">
-
           {journeySections.map((section) => (
-            <div
+            <article
               key={section.number}
               className="rounded-2xl border border-[#30332d] bg-[#191b18] p-7 transition hover:-translate-y-1 hover:border-[#c5f467]"
             >
@@ -73,9 +75,7 @@ export default function JourneyPage() {
                 <span className="h-2 w-2 rounded-full bg-[#c5f467]" />
               </div>
 
-              <h2 className="mb-4 text-2xl font-bold">
-                {section.title}
-              </h2>
+              <h2 className="mb-4 text-2xl font-bold">{section.title}</h2>
 
               <p className="mb-8 min-h-20 text-sm leading-7 text-gray-400">
                 {section.description}
@@ -98,14 +98,29 @@ export default function JourneyPage() {
                   ))}
                 </div>
               </div>
-            </div>
-          ))}
 
+              {/* Navigation Button */}
+              {section.available ? (
+                <Link
+                  href={section.href}
+                  className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-[#c5f467] px-5 py-3 font-semibold text-[#10110f] transition hover:bg-[#b2e653]"
+                >
+                  Explore Past →
+                </Link>
+              ) : (
+                <button
+                  disabled
+                  className="mt-8 w-full cursor-not-allowed rounded-xl border border-[#30332d] px-5 py-3 text-gray-500"
+                >
+                  Coming Soon
+                </button>
+              )}
+            </article>
+          ))}
         </section>
 
         {/* Bottom Section */}
         <section className="mt-10 rounded-2xl border border-dashed border-[#41463a] bg-[#191b18]/50 p-8 text-center">
-
           <h2 className="text-xl font-semibold">
             Your story is yours to write.
           </h2>
@@ -114,9 +129,7 @@ export default function JourneyPage() {
             Start documenting your journey. Add your own experiences,
             achievements and ambitions as you grow.
           </p>
-
         </section>
-
       </div>
     </main>
   );
