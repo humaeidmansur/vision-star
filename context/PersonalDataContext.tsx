@@ -1,6 +1,5 @@
+
 "use client";
-
-
 
 import {
   createContext,
@@ -15,44 +14,55 @@ import type { PersonalData } from "@/types";
 import {
   getPersonalData,
   savePersonalData,
-  clearPersonalData,
+  getActiveUser,
+  setActiveUser as saveActiveUser,
+  clearActiveUser,
+  getUsers,
+  updateUserActivity,
 } from "@/lib/storage";
 
 import { initialPersonalData } from "@/data/initial-data";
 
-// Context interface
 interface PersonalDataContextType {
   personalData: PersonalData;
   isLoaded: boolean;
+  activeUserId: string | null;
   updatePersonalData: (data: PersonalData) => void;
   resetPersonalData: () => void;
+  setCurrentUser: (userId: string) => void;
+  logout: () => void;
 }
 
-// Create context
 export const PersonalDataContext =
   createContext<PersonalDataContextType | undefined>(undefined);
 
-// Provider props
 interface PersonalDataProviderProps {
   children: ReactNode;
 }
 
-// Context provider
 export function PersonalDataProvider({
   children,
 }: PersonalDataProviderProps) {
   const [personalData, setPersonalData] =
     useState<PersonalData>(initialPersonalData);
 
+  const [activeUserId, setActiveUserId] =
+    useState<string | null>(null);
+
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load saved data when the application starts
+  // Load active user
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
-      const savedData = getPersonalData();
+      const userId = getActiveUser();
 
-      if (savedData) {
-        setPersonalData(savedData);
+      if (userId && getUsers().some((user) => user.id === userId)) {
+        const savedData = getPersonalData(userId);
+
+        setActiveUserId(userId);
+        setPersonalData(savedData ?? structuredClone(initialPersonalData));
+      } else {
+        clearActiveUser();
       }
 
       setIsLoaded(true);
@@ -61,16 +71,97 @@ export function PersonalDataProvider({
     return () => window.clearTimeout(timeoutId);
   }, []);
 
-  // Update personal data and save it
-  const updatePersonalData = useCallback((data: PersonalData) => {
-    setPersonalData(data);
-    savePersonalData(data);
+  // Track user activity
+  useEffect(() => {
+    if (!activeUserId || !isLoaded) return;
+
+    let lastUpdate = 0;
+
+    const handleActivity = () => {
+      const now = Date.now();
+
+      // Avoid writing to localStorage too frequently
+      if (now - lastUpdate < 60_000) return;
+
+      lastUpdate = now;
+
+      const userExists = getUsers().some(
+        (user) => user.id === activeUserId
+      );
+
+      if (!userExists) {
+        clearActiveUser();
+        setActiveUserId(null);
+        setPersonalData(structuredClone(initialPersonalData));
+        return;
+      }
+
+      updateUserActivity(activeUserId);
+    };
+
+    const events = [
+      "mousemove",
+      "mousedown",
+      "keydown",
+      "touchstart",
+      "click",
+    ];
+
+    events.forEach((event) =>
+      window.addEventListener(event, handleActivity)
+    );
+
+    return () => {
+      events.forEach((event) =>
+        window.removeEventListener(event, handleActivity)
+      );
+    };
+  }, [activeUserId, isLoaded]);
+
+  // Switch user
+  const setCurrentUser = useCallback((userId: string) => {
+    const userExists = getUsers().some(
+      (user) => user.id === userId
+    );
+
+    if (!userExists) return;
+
+    saveActiveUser(userId);
+
+    const savedData = getPersonalData(userId);
+
+    setActiveUserId(userId);
+    setPersonalData(savedData ?? structuredClone(initialPersonalData));
   }, []);
 
-  // Reset personal data to empty initial values
+  // Save personal data
+  const updatePersonalData = useCallback(
+    (data: PersonalData) => {
+      if (!activeUserId) return;
+
+      setPersonalData(data);
+      savePersonalData(activeUserId, data);
+      updateUserActivity(activeUserId);
+    },
+    [activeUserId]
+  );
+
+  // Reset personal data
   const resetPersonalData = useCallback(() => {
-    setPersonalData(initialPersonalData);
-    clearPersonalData();
+    if (!activeUserId) return;
+
+    const emptyData = structuredClone(initialPersonalData);
+
+    setPersonalData(emptyData);
+    savePersonalData(activeUserId, emptyData);
+  }, [activeUserId]);
+
+  // Logout
+  const logout = useCallback(() => {
+    clearActiveUser();
+
+    setActiveUserId(null);
+    setPersonalData(structuredClone(initialPersonalData));
   }, []);
 
   return (
@@ -78,8 +169,11 @@ export function PersonalDataProvider({
       value={{
         personalData,
         isLoaded,
+        activeUserId,
         updatePersonalData,
         resetPersonalData,
+        setCurrentUser,
+        logout,
       }}
     >
       {children}

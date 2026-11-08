@@ -138,19 +138,22 @@ export default function Dashboard() {
 
           <div className="relative z-10 max-w-2xl">
             <span className="rounded-full border border-[#c5f467]/30 bg-[#c5f467]/10 px-4 py-2 text-xs font-medium tracking-wider text-[#c5f467]">
-              ✦ YOUR PERSONAL LIFE SYSTEM
+              YOUR PERSONAL PLAN SYSTEM
             </span>
 
-            <h2 className="mt-7 text-3xl font-bold leading-tight md:text-5xl">
-              Design Your Life,
-              <br />
-              <span className="text-[#c5f467]">Build Your Future.</span>
-            </h2>
+<h2 className="mt-7 text-4xl font-extrabold leading-[1.15] tracking-tight md:text-6xl">
+  Learn from the Past,
+  <br />
+  <span className="text-[#c5f467]">Control Your Present,</span>
+  <br />
+  Build for the Future.
+</h2>
 
-            <p className="mt-5 max-w-xl text-sm leading-7 text-gray-400 md:text-base">
+<p className="mt-6 max-w-xl text-sm leading-8 text-gray-400 md:text-base">
               Your personal space to record achievements, develop skills, manage
               projects and turn your ambitions into reality.
-            </p>
+</p>
+
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/journey" className="vs-button">

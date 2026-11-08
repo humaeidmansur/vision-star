@@ -1,4 +1,5 @@
-// Personal Profile
+// Profile Information
+
 export interface Profile {
   name: string;
   title: string;
@@ -7,6 +8,18 @@ export interface Profile {
   email: string;
   avatar: string;
   visionYear: number;
+}
+
+
+// Acccount Information 
+
+export interface UserAccount {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  createdAt: string;
+  lastActiveAt: string;
 }
 
 // Past Achievements
@@ -72,6 +85,7 @@ export interface DailyTask {
   status: TaskStatus;
 }
 
+
 // Complete Personal Data
 export interface PersonalData {
   profile: Profile;
@@ -82,3 +96,5 @@ export interface PersonalData {
   values: LifeValue[];
   tasks: DailyTask[];
 }
+
+

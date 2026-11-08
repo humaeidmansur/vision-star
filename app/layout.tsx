@@ -1,8 +1,7 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import LoginPopup from "@/components/auth/LoginPopup";
 import { PersonalDataProvider } from "@/context/PersonalDataContext";
 import Sidebar from "@/components/layout/Sidebar";
 
@@ -29,12 +28,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">
-        <PersonalDataProvider>
-          <Sidebar />
-<div className="min-h-screen pt-20 md:ml-64 md:pt-0">
-  {children}
-</div>
-        </PersonalDataProvider>
+ <PersonalDataProvider>
+  <Sidebar />
+
+  <LoginPopup />
+
+  <div className="min-h-screen md:ml-64">
+    {children}
+  </div>
+</PersonalDataProvider>
       </body>
     </html>
   );

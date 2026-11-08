@@ -10,6 +10,7 @@ const navigation = [
   { name: "Skills", href: "/skills", icon: "◇" },
   { name: "Projects", href: "/projects", icon: "▣" },
   { name: "Daily Tasks", href: "/tasks", icon: "✓" },
+  { name: "Personal Values", href: "/values", icon: "♡" },
 ];
 
 export default function Sidebar() {
@@ -44,11 +45,11 @@ className={`fixed inset-y-0 left-0 z-50 flex h-screen w-64 flex-col border-r bor
         {/* Logo */}
         <div className="mb-12">
           <h1 className="text-2xl font-bold tracking-wide">
-            VISION<span className="text-[#c5f467]"> STAR.</span>
+            VISION<span className="text-[#c5f467]"> STAR</span>
           </h1>
 
-          <p className="mt-2 text-xs text-gray-500">
-            Your life management space
+          <p className="mt-2 text-xs text-gray-400">
+            Your life management system
           </p>
         </div>
 
