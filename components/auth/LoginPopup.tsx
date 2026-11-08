@@ -20,26 +20,39 @@ export default function LoginPopup() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Show popup after 5 seconds
+  // Close popup
+  const closePopup = () => {
+    setIsOpen(false);
+  };
+
+  // Show popup only once per browser tab session
   useEffect(() => {
     if (!isLoaded || activeUserId) return;
 
     if (pathname === "/login" || pathname === "/register") return;
 
-    const timer = window.setTimeout(() => {
+    const popupShown = sessionStorage.getItem(
+      "vision-star-popup-shown"
+    );
+
+    if (popupShown) return;
+
+    const timer = setTimeout(() => {
       setIsOpen(true);
+
+      sessionStorage.setItem(
+        "vision-star-popup-shown",
+        "true"
+      );
     }, 5000);
 
-    return () => window.clearTimeout(timer);
+    return () => clearTimeout(timer);
   }, [isLoaded, activeUserId, pathname]);
-
-  const closePopup = () => {
-    setIsOpen(false);
-  };
 
   // Login functionality
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     setError("");
     setIsSubmitting(true);
 
@@ -59,6 +72,7 @@ export default function LoginPopup() {
 
       setCurrentUser(user.id);
       setIsOpen(false);
+
       router.push("/");
     } catch (error) {
       console.error("Login error:", error);
@@ -87,7 +101,7 @@ export default function LoginPopup() {
           ×
         </button>
 
-        {/* Original Two-Column Design */}
+        {/* Two Column Design */}
         <div className="max-h-[92vh] overflow-y-auto rounded-3xl border border-[#30332d] bg-[#191b18] shadow-2xl">
 
           <div className="grid w-full lg:grid-cols-2">
@@ -97,6 +111,7 @@ export default function LoginPopup() {
 
               {/* Decoration */}
               <div className="pointer-events-none absolute -right-20 top-20 h-72 w-72 rounded-full border border-[#c5f467]/10" />
+
               <div className="pointer-events-none absolute -right-10 top-32 h-52 w-52 rounded-full border border-[#c5f467]/10" />
 
               {/* Brand */}
@@ -137,7 +152,7 @@ export default function LoginPopup() {
                   onClick={closePopup}
                   className="mt-8 inline-flex items-center gap-3 rounded-xl border border-[#c5f467]/40 bg-[#c5f467]/10 px-7 py-3.5 text-sm font-bold text-[#c5f467] transition-all duration-300 hover:bg-[#c5f467] hover:text-[#10110f]"
                 >
-                  Explore as Guest 
+                  Explore as Guest
                 </button>
 
               </div>
@@ -248,8 +263,11 @@ export default function LoginPopup() {
                     disabled={isSubmitting}
                     className="vs-button flex w-full items-center justify-center gap-3 rounded-xl py-4 text-sm font-bold disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {isSubmitting ? "Signing in..." : "Access My Dashboard"}
-                    {!isSubmitting }
+                    {isSubmitting
+                      ? "Signing in..."
+                      : "Access My Dashboard"}
+
+                    {!isSubmitting && <span>→</span>}
                   </button>
 
                 </form>
