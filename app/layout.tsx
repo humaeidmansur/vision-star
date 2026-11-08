@@ -33,9 +33,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
   <LoginPopup />
 
-  <div className="min-h-screen md:ml-64">
-    {children}
-  </div>
+  <div className="min-h-screen pt-20 md:ml-64 md:pt-0">
+  {children}
+</div>
 </PersonalDataProvider>
       </body>
     </html>
